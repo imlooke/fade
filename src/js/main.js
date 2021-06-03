@@ -1,1 +1,1 @@
-document.write("aaaaaaaaaaaaa");
+console.log("fade.");
