@@ -42,9 +42,9 @@ const assetsPath = {
     output: outputPath,
   },
   jquery: {
-    src: 'node_modules/jquery/dist/jquery.min.js',
+    src: "node_modules/jquery/dist/jquery.min.js",
     output: jsOutputPath,
-  }
+  },
 };
 
 // create server
@@ -135,7 +135,7 @@ function minjs(cb) {
 
 // copy images
 function copyimages(cb) {
-  if (fs.existsSync(imagesSrcPath)) {
+  if (__existsSync(imagesSrcPath)) {
     gulp.src(imagesSrcPath).pipe(gulp.dest(imagesOutputPath));
   }
   cb();
@@ -170,7 +170,7 @@ function minimages(cb) {
 // copy static files
 function copy(cb) {
   for (let key in assetsPath) {
-    if (fs.existsSync(assetsPath[key].src)) {
+    if (__existsSync(assetsPath[key].src)) {
       gulp.src(assetsPath[key].src).pipe(gulp.dest(assetsPath[key].output));
     }
   }
@@ -211,6 +211,15 @@ function __watch(cb) {
   gulp.watch(jsSrcPath, gulp.series(js));
   gulp.watch(imagesSrcPath, gulp.series(copyimages));
   cb();
+}
+
+// file exists
+function __existsSync(path) {
+  const fragments = ["/**/*", "/**", "/*"];
+  fragments.forEach((item) => {
+    path = path.replace(item, "");
+  });
+  return fs.existsSync(path);
 }
 
 exports.html = html;
