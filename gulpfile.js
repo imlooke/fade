@@ -41,6 +41,10 @@ const assetsPath = {
     src: `${srcPath}/favicon.ico`,
     output: outputPath,
   },
+  jquery: {
+    src: 'node_modules/jquery/dist/jquery.min.js',
+    output: jsOutputPath,
+  }
 };
 
 // create server
