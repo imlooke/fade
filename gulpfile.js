@@ -3,13 +3,11 @@ const del = require("del");
 const gulp = require("gulp");
 const sass = require("gulp-sass");
 const browserSync = require("browser-sync");
-const cssnano = require("cssnano");
 const htmlBeautify = require("gulp-html-beautify");
 const sourcemaps = require("gulp-sourcemaps");
-const autoprefixer = require("autoprefixer");
 const babel = require("gulp-babel");
 const fileInclude = require("gulp-file-include");
-const imagemin = require('gulp-imagemin');
+const imagemin = require("gulp-imagemin");
 const postcss = require("gulp-postcss");
 const rename = require("gulp-rename");
 const size = require("gulp-size");
@@ -65,7 +63,12 @@ function css(cb) {
     .src(scssSrcPath)
     .pipe(sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
-    .pipe(postcss([autoprefixer()]))
+    .pipe(
+      postcss([
+        require("./modules/postcss-flexibility"),
+        require("autoprefixer"),
+      ])
+    )
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest(cssOutputPath))
     .pipe(server.stream());
@@ -78,7 +81,13 @@ function mincss(cb) {
     .src(scssSrcPath)
     .pipe(sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
-    .pipe(postcss([autoprefixer(), cssnano()]))
+    .pipe(
+      postcss([
+        require("./modules/postcss-flexibility"),
+        require("autoprefixer"),
+        require("cssnano"),
+      ])
+    )
     .pipe(
       rename((path) => {
         path.basename += ".min";
